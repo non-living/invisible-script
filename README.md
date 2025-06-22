@@ -1,0 +1,3 @@
+copy
+past
+and execute
