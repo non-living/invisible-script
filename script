@@ -1,0 +1,37 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+local function makeInvisible(character)
+	local partsToHide = {
+		"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg",
+		"UpperTorso", "LowerTorso",
+		"LeftUpperArm", "LeftLowerArm", "LeftHand",
+		"RightUpperArm", "RightLowerArm", "RightHand",
+		"LeftUpperLeg", "LeftLowerLeg", "LeftFoot",
+		"RightUpperLeg", "RightLowerLeg", "RightFoot"
+	}
+
+	for _, partName in ipairs(partsToHide) do
+		local part = character:FindFirstChild(partName)
+		if part and part:IsA("BasePart") then
+			part.Transparency = 1
+			if part:FindFirstChild("face") then
+				part.face.Transparency = 1
+			end
+		end
+	end
+end
+
+RunService.RenderStepped:Connect(function()
+	local character = LocalPlayer.Character
+	if character then
+		makeInvisible(character)
+	end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function(char)
+	char:WaitForChild("HumanoidRootPart") -- ensure it's loaded
+	wait(0.1)
+	makeInvisible(char)
+end)
